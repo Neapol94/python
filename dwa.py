@@ -67,14 +67,14 @@ teams.append(Team("Leicester", 40))
 
 def match(teamHome, teamAway):
     def better_team(): #which team is better
-        teamHome.potential += 2
+        teamHome.potential += 1
         if(teamHome.potential>teamAway.potential): return teamHome
         elif(teamHome.potential == teamAway.potential):
             teamHome.potential +=1
             return teamHome
         else: return teamAway
     def worse_team(): #which team is worse
-        teamAway.potential -= 3
+        teamAway.potential -= 2
         if(teamHome.potential>teamAway.potential): return teamAway
         elif (teamHome.potential == teamAway.potential):
             teamAway.potential -= 1
@@ -104,11 +104,11 @@ def match(teamHome, teamAway):
         for i in range(int(betterTeamScoreZero)):
             betterTeamScoreProb.append(0)
 
-        betterTeamScoreFour = (better_team().potential - worse_team().potential) / 4 * 10
+        betterTeamScoreFour = (better_team().potential - worse_team().potential) / 3.5 * 10
         for i in range(int(betterTeamScoreFour)):
             betterTeamScoreProb.append(4)
 
-        betterTeamScoreOne = (better_team().potential - worse_team().potential) / 3 * 10
+        betterTeamScoreOne = (better_team().potential - worse_team().potential) / 2.5 * 10
         for i in range(int(betterTeamScoreOne)):
             betterTeamScoreProb.append(1)
 
@@ -125,19 +125,19 @@ def match(teamHome, teamAway):
         worseTeamScoreProb = []
         # totalProb = (adv/5 + adv/4 + adv/3 + adv/2 + adv/1) * 10 #podstawa
 
-        worseTeamScoreFive = (better_team().potential - worse_team().potential)/ 5
+        worseTeamScoreFive = (better_team().potential - worse_team().potential) / 6
         for i in range(int(worseTeamScoreFive)):
             worseTeamScoreProb.append(5)
 
-        worseTeamScoreFour = (better_team().potential - worse_team().potential)/ 4
+        worseTeamScoreFour = (better_team().potential - worse_team().potential) / 5
         for i in range(int(worseTeamScoreFour)):
             worseTeamScoreProb.append(4)
 
-        worseTeamScoreThree = (better_team().potential - worse_team().potential) / 4 * 10
+        worseTeamScoreThree = (better_team().potential - worse_team().potential) / 4.5 * 10
         for i in range(int(worseTeamScoreThree)):
             worseTeamScoreProb.append(3)
 
-        worseTeamScoreTwo = (better_team().potential - worse_team().potential) / 3 * 10
+        worseTeamScoreTwo = (better_team().potential - worse_team().potential) / 3.5 * 10
         for i in range(int(worseTeamScoreTwo)):
             worseTeamScoreProb.append(2)
 
@@ -145,7 +145,7 @@ def match(teamHome, teamAway):
         for i in range(int(worseTeamScoreOne)):
             worseTeamScoreProb.append(1)
 
-        worseTeamScoreZero = (better_team().potential - worse_team().potential) / 1 * 10
+        worseTeamScoreZero = (better_team().potential - worse_team().potential) * 10
         for i in range(int(worseTeamScoreZero)):
             worseTeamScoreProb.append(0)
 
@@ -170,4 +170,7 @@ def match(teamHome, teamAway):
 
 #match(random.choice(teams), random.choice(teams))
 #print(match(teams[1], teams[2]))
-match(random.choice(teams), random.choice(teams))
+
+team1 = random.choice(teams)
+team2 = random.choice(teams)
+match(team1, team2)
