@@ -172,5 +172,5 @@ def match(teamHome, teamAway):
 #match(random.choice(teams), random.choice(teams))
 #print(match(teams[1], teams[2]))
 
-team = random.choices(teams, k=2)
+team = random.sample(teams, 2)#bez powtórzeń (jakbym użył random.choices(teams, 2), to mogłyby wystąpić powtózenia
 match(team[0], team[1])
