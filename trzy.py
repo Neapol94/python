@@ -8,3 +8,4 @@
 wynik = "3-1"
 wynik = wynik.split("-")
 print(wynik[0]+" "+wynik[1])
+

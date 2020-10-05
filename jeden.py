@@ -119,6 +119,20 @@ def ktoWygral():
 
 ktoWygral()
 
+# teams = (
+#     (None, 'Chelsea London', 44, 'Stamford Bridge', 'CHE', 'Premier League', '0', '0', '0', ''),
+#     (None, 'Everton', 34, 'Goodison Park', 'EVE', 'Premier League', '0', '0', '0', ''),
+#     (None, 'West Ham United', 30, 'The Olympic Stadium', 'WHU', 'Premier League', '0', '0', '0', ''),
+#     (None, 'Liverpool', 48, "Anfield Road", 'LIV', 'Premier League', '0', '0', '0', ''),
+#     (None, 'Manchester City', 45, "Etihad Stadium", 'MCI', 'Premier League', '0', '0', '0', ''),
+#     (None, 'Sheffield United', 34, "Bramal Lane", 'SHU', 'Premier League', '0', '0', '0', ''),
+#     (None, 'Wolverhampton Wanderers', 39, "Molineux Stadium", 'WOL', 'Premier League', '0', '0', '0', ''),
+#     (None, 'Arsenal London', 40, "The Emirates", 'ARS', 'Premier League', '0', '0', '0', ''),
+#     (None, 'Tottenham Hotspur', 41, "White Hart Lane", 'TOT', 'Premier League', '0', '0', '0', ''),
+# )
+#podstawiamy tuplę do zapytania sql
+# cur.executemany('INSERT INTO teams VALUES(?,?,?,?,?,?,?,?,?,?)', teams)
+
 
 
 

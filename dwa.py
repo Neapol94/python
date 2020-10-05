@@ -39,16 +39,22 @@
 
 import random
 class Team:
-  def __init__(self, name, potential):
+  def __init__(self, teamId, name, potential, stadium, symbol, league, points, goals_scored, goals_against, form):
+    self.teamId = teamId
     self.name = name
     self.potential = potential
-
+    self.stadium = stadium
+    self.symbol = symbol
+    self.league = league
+    self.points = points
+    self.goals_scored = goals_scored
+    self.goals_scored = goals_against
+    self.form = form
 teams = []
-teams.append(Team("ManUtd", 42))
+
 teams.append(Team("Luton Town", 21))
 teams.append(Team("Chelsea", 44))
 teams.append(Team("Brentford", 26))
-teams.append(Team("Brighton", 29))
 teams.append(Team("Everton", 34))
 teams.append(Team("Birmingham", 27))
 teams.append(Team("Newcastle", 33))
