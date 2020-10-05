@@ -130,7 +130,7 @@ ktoWygral()
 #     (None, 'Arsenal London', 40, "The Emirates", 'ARS', 'Premier League', '0', '0', '0', ''),
 #     (None, 'Tottenham Hotspur', 41, "White Hart Lane", 'TOT', 'Premier League', '0', '0', '0', ''),
 # )
-#podstawiamy tuplę do zapytania sql
+# #podstawiamy tuplę do zapytania sql
 # cur.executemany('INSERT INTO teams VALUES(?,?,?,?,?,?,?,?,?,?)', teams)
 
 

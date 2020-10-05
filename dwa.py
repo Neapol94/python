@@ -50,27 +50,9 @@ class Team:
     self.goals_scored = goals_scored
     self.goals_scored = goals_against
     self.form = form
-teams = []
 
-teams.append(Team("Luton Town", 21))
-teams.append(Team("Chelsea", 44))
-teams.append(Team("Brentford", 26))
-teams.append(Team("Everton", 34))
-teams.append(Team("Birmingham", 27))
-teams.append(Team("Newcastle", 33))
-teams.append(Team("West Ham", 30))
-teams.append(Team("Liverpool", 48))
-teams.append(Team("Bournemouth", 32))
-teams.append(Team("Watford", 28))
-teams.append(Team("Norwich City", 28))
-teams.append(Team("ManCity", 45))
-teams.append(Team("Blackburn Rovers", 25))
-teams.append(Team("Sheffield United", 34))
-teams.append(Team("Wolves", 39))
-teams.append(Team("Arsenal", 40))
-teams.append(Team("Tottenham", 41))
-teams.append(Team("Leicester", 40))
-teams.append(Team("Huddersfield", 33))
+
+
 
 def match(teamHome, teamAway):
     def better_team(): #which team is better
@@ -178,5 +160,7 @@ def match(teamHome, teamAway):
 #match(random.choice(teams), random.choice(teams))
 #print(match(teams[1], teams[2]))
 
-team = random.sample(teams, 2)#bez powtórzeń (jakbym użył random.choices(teams, 2), to mogłyby wystąpić powtózenia
+
+#bez powtórzeń (jakbym użył random.choices(teams, 2), to mogłyby wystąpić powtórzenia
+team = random.sample(teams, 2)
 match(team[0], team[1])
