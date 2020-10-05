@@ -1,1 +1,8 @@
-venv/*
+# IDE Files
+/.idea/*
+
+#Database files
+*.db
+
+#Virtual environment catalog
+/venv/

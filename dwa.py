@@ -64,6 +64,7 @@ teams.append(Team("Wolves", 39))
 teams.append(Team("Arsenal", 40))
 teams.append(Team("Tottenham", 41))
 teams.append(Team("Leicester", 40))
+teams.append(Team("Huddersfield", 33))
 
 def match(teamHome, teamAway):
     def better_team(): #which team is better
@@ -74,7 +75,7 @@ def match(teamHome, teamAway):
             return teamHome
         else: return teamAway
     def worse_team(): #which team is worse
-        teamAway.potential -= 2
+        teamAway.potential -= 1
         if(teamHome.potential>teamAway.potential): return teamAway
         elif (teamHome.potential == teamAway.potential):
             teamAway.potential -= 1
@@ -108,11 +109,11 @@ def match(teamHome, teamAway):
         for i in range(int(betterTeamScoreFour)):
             betterTeamScoreProb.append(4)
 
-        betterTeamScoreOne = (better_team().potential - worse_team().potential) / 2.5 * 10
+        betterTeamScoreOne = (better_team().potential - worse_team().potential) / 3 * 10
         for i in range(int(betterTeamScoreOne)):
             betterTeamScoreProb.append(1)
 
-        betterTeamScoreThree = (better_team().potential - worse_team().potential) / 2 * 10
+        betterTeamScoreThree = (better_team().potential - worse_team().potential) / 1.5 * 10
         for i in range(int(betterTeamScoreThree)):
             betterTeamScoreProb.append(3)
 
@@ -171,6 +172,5 @@ def match(teamHome, teamAway):
 #match(random.choice(teams), random.choice(teams))
 #print(match(teams[1], teams[2]))
 
-team1 = random.choice(teams)
-team2 = random.choice(teams)
-match(team1, team2)
+team = random.choices(teams, k=2)
+match(team[0], team[1])
