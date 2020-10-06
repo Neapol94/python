@@ -33,7 +33,7 @@
 # print(table)
 
 
-import sqlite3
+import sqlite3, random
 
 # utworzenie połączenia z bazą przechowywaną na dysku
 # lub w pamięci (':memory:')
@@ -95,29 +95,29 @@ cur = con.cursor()
 
 
 
-def ktoWygral():
-    cur.execute(
-        """
-        SELECT matches.id,date,result,home_team_id,away_team_id,stadium,name FROM matches,teams
-        WHERE teams.id in (home_team_id, away_team_id)
-        """)
-    #pobiera dwa rzędy: 1 z gospodarzem a drugi z gościem
-    mecze = cur.fetchall()
-    wynik = mecze[0]['result'].split("-")
-    homeScore = wynik[0]
-    awayScore = wynik[1]
-    if(homeScore>awayScore):
-        return print("Dnia: " + mecze[0]['date'] + " mecz na stadionie " + mecze[0]['stadium'] + " wygrali gospodarze."
-                     "\n"+ mecze[0]['name']+ " " + homeScore + " - " + awayScore+ " " + mecze[1]['name'])
-    elif(homeScore<awayScore):
-        return print("Dnia: " + mecze[0]['date'] + " mecz na stadionie " + mecze[0]['stadium'] + " wygrali goście."+
-                     "\n"+ mecze[0]['name']+ " " + homeScore + " - " + awayScore+ " " + mecze[1]['name'])
-    else:
-        return print("Dnia: " + mecze[0]['date'] + " padł remis na stadionie " + mecze[0]['stadium'] +
-                     "\n"+ mecze[0]['name']+ " " + homeScore + " - " + awayScore+ " " + mecze[1]['name'])
-
-
-ktoWygral()
+# def ktoWygral():
+#     cur.execute(
+#         """
+#         SELECT matches.id,date,result,home_team_id,away_team_id,stadium,name FROM matches,teams
+#         WHERE teams.id in (home_team_id, away_team_id)
+#         """)
+#     #pobiera dwa rzędy: 1 z gospodarzem a drugi z gościem
+#     mecze = cur.fetchall()
+#     wynik = mecze[0]['result'].split("-")
+#     homeScore = wynik[0]
+#     awayScore = wynik[1]
+#     if(homeScore>awayScore):
+#         return print("Dnia: " + mecze[0]['date'] + " mecz na stadionie " + mecze[0]['stadium'] + " wygrali gospodarze."
+#                      "\n"+ mecze[0]['name']+ " " + homeScore + " - " + awayScore+ " " + mecze[1]['name'])
+#     elif(homeScore<awayScore):
+#         return print("Dnia: " + mecze[0]['date'] + " mecz na stadionie " + mecze[0]['stadium'] + " wygrali goście."+
+#                      "\n"+ mecze[0]['name']+ " " + homeScore + " - " + awayScore+ " " + mecze[1]['name'])
+#     else:
+#         return print("Dnia: " + mecze[0]['date'] + " padł remis na stadionie " + mecze[0]['stadium'] +
+#                      "\n"+ mecze[0]['name']+ " " + homeScore + " - " + awayScore+ " " + mecze[1]['name'])
+#
+#
+# ktoWygral()
 
 # teams = (
 #     (None, 'Chelsea London', 44, 'Stamford Bridge', 'CHE', 'Premier League', '0', '0', '0', ''),
@@ -135,9 +135,21 @@ ktoWygral()
 
 
 
+#print((35 - 23) // 2 * 2)
+# cur.execute("select count(id) from teams")
+# teams = random.sample(range(1,cur.fetchone()[-1]+1), 2)
+# print(teams)
+cur.execute("select count(id) from teams")
+teams = random.sample(range(1, cur.fetchone()[-1] + 1), 2)
+
+cur.execute("SELECT * FROM teams WHERE id in(?, ?)", (teams[0],teams[1],))
+team = cur.fetchall()
 
 
-
+# print(team1[0]['name'], team1[0]['potential'], team1[0]['stadium'], team1[0]['symbol'], team1[0]['league'], team1[0]['points'],
+#       team1[0]['goals_scored'], team1[0]['goals_against'], team1[0]['form'])
+print(team[0]['name'], team[1]['name'])
+#print(type(teams[0]))
 # zatwierdzamy zmiany w bazie
 con.commit()
 con.close()
