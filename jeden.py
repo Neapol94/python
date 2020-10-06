@@ -1,3 +1,4 @@
+import unittest
 # # napis = "dopa"
 # #
 # # if napis == "dopa":
@@ -139,16 +140,44 @@ cur = con.cursor()
 # cur.execute("select count(id) from teams")
 # teams = random.sample(range(1,cur.fetchone()[-1]+1), 2)
 # print(teams)
-cur.execute("select count(id) from teams")
-teams = random.sample(range(1, cur.fetchone()[-1] + 1), 2)
-
-cur.execute("SELECT * FROM teams WHERE id in(?, ?)", (teams[0],teams[1],))
-team = cur.fetchall()
+#
+# cur.execute("SELECT * FROM teams WHERE id in(?, ?)", (teams[0],teams[1],))
+# team = cur.fetchall()
 
 
 # print(team1[0]['name'], team1[0]['potential'], team1[0]['stadium'], team1[0]['symbol'], team1[0]['league'], team1[0]['points'],
 #       team1[0]['goals_scored'], team1[0]['goals_against'], team1[0]['form'])
-print(team[0]['name'], team[1]['name'])
+class Team:
+  def __init__(self, teamId, name, potential, stadium, symbol, league, points, goals_scored, goals_against, form):
+    self.teamId = teamId
+    self.name = name
+    self.potential = potential
+    self.stadium = stadium
+    self.symbol = symbol
+    self.league = league
+    self.points = points
+    self.goals_scored = goals_scored
+    self.goals_scored = goals_against
+    self.form = form
+def twoTeams(): #ma zwracać dwa obiekty
+
+    cur.execute("select count(id) from teams")
+    teams = random.sample(range(1, (cur.fetchone()[-1] + 1)), 2)
+
+
+    if(teams[0] != teams[1]):
+        cur.execute("SELECT * FROM teams WHERE id in(?, ?)", (teams[0], teams[1],))
+        team = cur.fetchall() #team[0] - gospodarz, team[1] - gość
+
+        host = Team(None, team[0]['name'], team[0]['potential'], team[0]['stadium'], team[0]['symbol'], team[0]['league'],
+            team[0]['points'], team[0]['goals_scored'], team[0]['goals_against'], team[0]['form'])
+        visitor = Team(None, team[1]['name'], team[1]['potential'], team[1]['stadium'], team[1]['symbol'], team[1]['league'],
+            team[1]['points'], team[1]['goals_scored'], team[1]['goals_against'], team[1]['form'])
+        return host, visitor
+    else:
+        while (teams[0] == teams[1]):
+            cur.execute("select count(id) from teams")
+            teams = random.sample(range(1, (cur.fetchone()[-1] + 1)), 2)
 #print(type(teams[0]))
 # zatwierdzamy zmiany w bazie
 con.commit()
