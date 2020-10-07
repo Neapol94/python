@@ -181,15 +181,16 @@ def teamCreate(id):
                 team[0]['goals_scored'], team[0]['goals_against'], team[0]['form'])
     return teamObject
 
+
 def betterTeam(teamHome, teamAway):
     teamHome.potential += 1
     teamAway.potential -= 1
-
-    if(teamHome.potential>teamAway.potential): return teamHome, teamAway
-    elif(teamHome.potential == teamAway.potential):
-        teamHome.potential +=1
+    if (teamHome.potential > teamAway.potential):
         return teamHome, teamAway
-    else: return teamAway, teamHome
+    elif (teamHome.potential == teamAway.potential):
+        teamHome.potential += 1
+        return teamHome, teamAway
+    else: return teamAway, teamHome #betterTeam, worseTeam
 
 
 def winnerProbability(betterTeam, worseTeam):
@@ -259,7 +260,6 @@ def worseTeamScore(winnerProb):
 
 def result(teamHome, teamHomeScore, teamAway, teamAwayScore):
     return print("%s %d - %d %s" % (teamHome, teamHomeScore, teamAway, teamAwayScore))
-
 
 
 
