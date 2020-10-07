@@ -20,6 +20,11 @@ class Team:
     self.goals_scored = goals_against
     self.form = form
 
+  def teamCompare(firstTeamId, secondTeamId):
+    while (firstTeamId.name == secondTeamId.name):
+        id = getTeamId()
+        secondTeamId = teamCreate(id)
+    return firstTeamId, secondTeamId
 
 def getTeamId():
     cur.execute("select count(id) from teams")
@@ -27,11 +32,6 @@ def getTeamId():
 
     return teamId
 
-
-def teamsCompare(firstTeamId, secondTeamId):
-    while(firstTeamId==secondTeamId):
-        secondTeamId = random.choice(range(1, (cur.fetchone()[-1] + 1)))
-    return firstTeamId, secondTeamId
 
 def teamCreate(id):
     cur.execute("SELECT * FROM teams WHERE id = ?", (id,))
@@ -41,6 +41,13 @@ def teamCreate(id):
                 team[0]['symbol'], team[0]['league'], team[0]['points'],
                 team[0]['goals_scored'], team[0]['goals_against'], team[0]['form'])
     return teamObject
+
+
+# def teamCompare(firstTeamId, secondTeamId):
+#     while(firstTeamId.name==secondTeamId.name):
+#         id = getTeamId()
+#         secondTeamId = teamCreate(id)
+#     return firstTeamId, secondTeamId
 
 
 def betterTeam(teamHome, teamAway):
@@ -130,7 +137,7 @@ def result(teamHome, teamAway, betterTeamScore, worseTeamScore):
 
 teamHome = teamCreate(getTeamId())
 teamAway = teamCreate(getTeamId())
-team = teamsCompare(teamHome, teamAway)
+team = Team.teamCompare(teamHome, teamAway)
 
 
 probability = winnerProbability(betterTeam(teamHome, teamAway)[0], betterTeam(teamHome, teamAway)[1])
