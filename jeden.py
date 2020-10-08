@@ -26,6 +26,40 @@ class Team:
         secondTeamId = teamCreate(id)
     return firstTeamId, secondTeamId
 
+
+def dateGen():
+    def czyPrzestepny(rok):
+        if rok % 4 == 0 and (rok % 100 != 0 or rok % 400 == 0):
+            return True
+        else:
+            return False
+
+
+    lata = ('2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020')
+    rok = random.choice(lata)
+
+    miesiace = []
+    for i in range(1,13):
+        if(i<10): miesiace.append("0"+ str(i))
+        else: miesiace.append(str(i))
+    miesiac = random.choice(miesiace)
+
+    dzien = ""
+    if(miesiac=="02"):
+        if(czyPrzestepny(rok)):
+            dzien = random.choice(range(1,30)) #luty 29dni
+        else:
+            dzien = random.choice(range(1, 29)) #luty 28dni
+    if(miesiac in ['01', '03', '05', '07', '08', '10', '12']):
+        dzien = random.choice(range(1, 32)) #31dniowe
+    else: dzien = random.choice(range(1, 31)) #30dniowe
+
+    if (dzien < 10): dzien = "0" + str(dzien)
+
+    return rok + "-" + miesiac + "-" + str(dzien)
+
+
+
 def getTeamId():
     cur.execute("select count(id) from teams")
     teamId = random.choice(range(1, (cur.fetchone()[-1] + 1)))
@@ -69,7 +103,7 @@ def winnerProbability(betterTeam, worseTeam):
 def betterTeamScore(winnerProb):
     betterTeamScoreProb = []
 
-    betterTeamScoreFive = winnerProb // 10 * 10
+    betterTeamScoreFive = winnerProb // 15 * 10
     for i in range(int(betterTeamScoreFive)):
         betterTeamScoreProb.append(5)
 
@@ -77,11 +111,11 @@ def betterTeamScore(winnerProb):
     for i in range(int(betterTeamScoreZero)):
         betterTeamScoreProb.append(0)
 
-    betterTeamScoreFour = winnerProb // 5 * 10
+    betterTeamScoreFour = winnerProb // 6 * 10
     for i in range(int(betterTeamScoreFour)):
         betterTeamScoreProb.append(4)
 
-    betterTeamScoreOne = (100 - winnerProb) // 4 * 10
+    betterTeamScoreOne = (100 - winnerProb) // 5 * 10
     for i in range(betterTeamScoreOne):
         betterTeamScoreProb.append(1)
 
@@ -99,15 +133,15 @@ def betterTeamScore(winnerProb):
 def worseTeamScore(winnerProb):
     worseTeamScoreProb = []
 
-    worseTeamScoreFive = (100 - winnerProb) // 10 * 10
+    worseTeamScoreFive = (100 - winnerProb) // 20 * 10
     for i in range(worseTeamScoreFive):
         worseTeamScoreProb.append(5)
 
-    worseTeamScoreFour = (100 - winnerProb) // 6 * 10
+    worseTeamScoreFour = (100 - winnerProb) // 10 * 10
     for i in range(worseTeamScoreFour):
         worseTeamScoreProb.append(4)
 
-    worseTeamScoreThree = (100 - winnerProb) // 4 * 10
+    worseTeamScoreThree = (100 - winnerProb) // 6 * 10
     for i in range(int(worseTeamScoreThree)):
         worseTeamScoreProb.append(3)
 
@@ -135,15 +169,18 @@ def result(teamHome, teamAway, betterTeamScore, worseTeamScore):
 
     return print("%s %d - %d %s" % (teamHome.name, teamHomeScore, teamAwayScore, teamAway.name))
 
-teamHome = teamCreate(getTeamId())
-teamAway = teamCreate(getTeamId())
-team = Team.teamCompare(teamHome, teamAway)
+# teamHome = teamCreate(getTeamId())
+# teamAway = teamCreate(getTeamId())
+# team = Team.teamCompare(teamHome, teamAway)
+#
+#
+# probability = winnerProbability(betterTeam(teamHome, teamAway)[0], betterTeam(teamHome, teamAway)[1])
+# bts = betterTeamScore(probability)
+# wts = worseTeamScore(probability)
+# result(teamHome, teamAway, bts, wts)
 
+print(dateGen())
 
-probability = winnerProbability(betterTeam(teamHome, teamAway)[0], betterTeam(teamHome, teamAway)[1])
-bts = betterTeamScore(probability)
-wts = worseTeamScore(probability)
-result(teamHome, teamAway, bts, wts)
 
 con.commit()
 con.close()
