@@ -42,16 +42,30 @@ import random
 # for item in numberGenerator:
 #     print(item)
 
-names = {"Leszek", "Iza", "Paweł", "Wioletta"}
-celsius = {"c1": -20, "c2": -15, "c3": 0, "c4": 12, "c5": 24, "c6": 21}
-namesLength = {
-    name : len(name)
-    for name in names
-}
-fahrenheit = {
-    key : celsius[key]*1.8+32
-    for key in celsius
-    if celsius[key] > 0
-}
+# names = {"Leszek", "Iza", "Paweł", "Wioletta"}
+# celsius = {"c1": -20, "c2": -15, "c3": 0, "c4": 12, "c5": 24, "c6": 21}
+# namesLength = {
+#     name : len(name)
+#     for name in names
+# }
+# fahrenheit = {
+#     key : celsius[key]*1.8+32
+#     for key in celsius
+#     if celsius[key] > 0
+# }
+#
+# print(fahrenheit)
 
-print(fahrenheit)
+# liczby = []
+# generatorLiczb = (
+#     liczba
+#     for liczba in range(1, 400)
+#     if(liczba % 7 == 0 and liczba % 5 != 0)
+# )
+#
+# for liczba in generatorLiczb:
+#     print(liczba)
+
+rok = str(2016)
+if rok % 4 == 0 and (rok % 100 != 0 or rok % 400 == 0):
+    print(True)

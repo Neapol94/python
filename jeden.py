@@ -26,7 +26,7 @@ def getTeamId():
     cur.execute("select count(id) from teams")
     teamId = random.choice(range(1, (cur.fetchone()[-1] + 1)))
 
-    return teamId
+    return int(teamId)
 
 
 def teamCreate(id):
@@ -39,16 +39,15 @@ def teamCreate(id):
     return teamObject
 
 
-def teamCompare(firstTeamId, secondTeamId):
-    while(firstTeamId.name==secondTeamId.name):
+def teamCompare(homeTeamId, awayTeamId):
+    while(homeTeamId==awayTeamId):
         id = getTeamId()
-        secondTeamId = teamCreate(id)
-    return firstTeamId, secondTeamId
+        awayTeamId = id
+    return homeTeamId, awayTeamId
 
 
 def dateGen():
     def czyPrzestepny(rok):
-        rok = str(rok)
         if rok % 4 == 0 and (rok % 100 != 0 or rok % 400 == 0):
             return True
         else:
@@ -56,7 +55,7 @@ def dateGen():
 
 
     lata = ('2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020')
-    rok = random.choice(lata)
+    rok = str(random.choice(lata))
 
     miesiace = []
     for i in range(1,13):
@@ -78,19 +77,19 @@ def dateGen():
 
     return rok + "-" + miesiac + "-" + str(dzien)
 
-def betterTeam(teamHome, teamAway):
-    teamHome.potential += 1
-    teamAway.potential -= 1
-    if (teamHome.potential > teamAway.potential):
-        return teamHome, teamAway
-    elif (teamHome.potential == teamAway.potential):
-        teamHome.potential += 1
-        return teamHome, teamAway
-    else: return teamAway, teamHome #betterTeam, worseTeam
 
 
-def winnerProbability(betterTeam, worseTeam):
-    winnerProb = betterTeam.potential - worseTeam.potential + 50  # percentage chance for a win
+def winnerProbability(teamHome, teamAway):
+    winnerProb = None
+    thp = teamHome.potential + 1
+    tap = teamAway.potential - 1
+    if (thp == tap):
+        thp  += 1
+
+    if (thp  > tap):
+        winnerProb = thp  - tap + 50  # percentage chance for a win
+    elif(thp  < tap):
+        winnerProb = tap - thp + 50  # percentage chance for a win
     return winnerProb
 
 
@@ -161,7 +160,7 @@ def result(teamHome, teamAway, betterTeamScore, worseTeamScore):
         teamHomeScore = worseTeamScore
         teamAwayScore = betterTeamScore
 
-    return teamHome.name, teamHomeScore, teamAwayScore, teamAway.name
+    return teamHome, teamHomeScore, teamAwayScore, teamAway
 
 
 def saveScores(teamHome, teamHomeScore, teamAwayScore, teamAway):
@@ -203,24 +202,25 @@ def saveScores(teamHome, teamHomeScore, teamAwayScore, teamAway):
 
 
 
+homeId = getTeamId()
+awayId = getTeamId()
 
-teamHomeObject = teamCreate(getTeamId())
-teamAwayObject = teamCreate(getTeamId())
-team = teamCompare(teamHomeObject, teamAwayObject)
+team = teamCompare(homeId, awayId)
+teamHomeObject = teamCreate(team[0])
+teamAwayObject = teamCreate(team[1])
 
-
-probability = winnerProbability(betterTeam(teamHomeObject, teamAwayObject)[0], betterTeam(teamHomeObject, teamAwayObject)[1])
+probability = winnerProbability(teamHomeObject, teamAwayObject)
 bts = betterTeamScore(probability)
 wts = worseTeamScore(probability)
-# print(teamHomeObject, result(teamHomeObject, teamAwayObject, bts, wts)[1],
-#            result(teamHomeObject, teamAwayObject, bts, wts)[2], teamAwayObject)
-print(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
+
+
+print(result(teamHomeObject, teamAwayObject, bts, wts)[0].name, result(teamHomeObject, teamAwayObject, bts, wts)[1],
+      result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3].name)
+
+
+
+saveScores(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
            result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3])
-print(teamHomeObject.name, bts, wts, teamAwayObject.name)
-# saveScores(teamHomeObject, result(teamHomeObject, teamAwayObject, bts, wts)[1],
-#            result(teamHomeObject, teamAwayObject, bts, wts)[2], teamAwayObject)
-
-
 
 con.commit()
 con.close()
