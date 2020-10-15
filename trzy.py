@@ -112,7 +112,7 @@ def najwiekszaZListy(lista):
             najw[0] = lista[i]
     return najw
 
-lista = [2, 3, 4, 5, 6, 7, 2, 2, 2]
+lista = [2, 3, 4, 4, 5, 6, 5, 5, 5, 5, 7, 2, 2, 2]
 
 #print(najwiekszaZListy(lista))
 
@@ -138,8 +138,34 @@ def sprawdzVM(list):
     return powtorki
 
 
+def moda(list):
+    n = len(list)
+    slownik = dict()
+    dwieNajw = dict()
+    for i in range(n):
+        if list[i] in slownik:
+            slownik[list[i]] +=1
+        else:
+            slownik[list[i]] = 1
+    bufor, bufor1 = 0, 0
+    klucz, klucz1 = 0, 0
+    for key in slownik:
+        if(slownik[key]>bufor):
+            klucz = key
+            bufor = (slownik[key])
+
+        elif(slownik[key]==bufor):
+            klucz1 = key
+            bufor1 = slownik[key]
+    if(bufor1>0):
+        najw = {klucz:bufor, klucz1:bufor1}
+    else: najw = {klucz: bufor}
 
 
-print(sprawdzVM(dane))
+    return najw
+
+
+print(moda(lista))
+#print(sprawdzVM(dane))
 #print(czyPalindrom(tekst))
 #print(czyAnagram(tekst, anagram))

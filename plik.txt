@@ -8,11 +8,11 @@
 46.17.119.6     
 46.17.119.7     VM 301 DokHumansoft Stara - brak domeny
 46.17.119.8     VM 106 DevShop - dev.idetal.pl
-46.17.119.9     VM 101 DemoPP - demo.ipracownicy.pl
+46.17.119.9     VM 111 DemoPP - demo.ipracownicy.pl
 46.17.119.10    VM 102 DemoShop - demo.idetal.pl
 46.17.119.11    VM 302 FTP-Humansoft download2.humansoft.pl upload2.humansoft
 46.17.119.12    VM 103 DemoB2B - demo.izamowienia.pl
-46.17.119.13    VM 304 Postfix - serwer pocztowy
+46.17.119.13    VM 204 Postfix - serwer pocztowy
 46.17.119.14    VM 204 Spawtech - spawtech.idetal.pl
 46.17.119.15    VM 202 Jednosc - jednosc.ipracownicy.pl
 46.17.119.16    VM 108 TestB2B - test.izamowienia.pl
@@ -40,8 +40,8 @@
 46.17.119.38    VM 311 DokHumansoft nowa - dokumentacja.humansoft.pl
 46.17.119.39    VM 112 MysqlCluster
 46.17.119.40    VM 222 Prescot - prescot.idetal.pl
-46.17.119.41    VM 104 Serwis presty - serwis.idetal.pl
-46.17.119.42    VM 220 PrescotB2B - prescot.izamowienia.pl
+46.17.119.41    VM 112 Serwis presty - serwis.idetal.pl
+46.17.119.42    VM 225 PrescotB2B - prescot.izamowienia.pl
 46.17.119.43    
 46.17.119.44    VM 105 LiderTestAPI
 46.17.119.45    VM 115 HermesOnline na Windowsie
