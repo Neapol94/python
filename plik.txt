@@ -1,0 +1,64 @@
+255.255.255.192 = 26 maska (http://42.pl/ipcalc/)
+185.189.124.7   dns lokalny
+46.17.119.1     brama
+46.17.119.2     router RT1
+46.17.119.3     router RT2
+46.17.119.4     rezerwa
+46.17.119.5     VM 306 Zabbix
+46.17.119.6     
+46.17.119.7     VM 301 DokHumansoft Stara - brak domeny
+46.17.119.8     VM 106 DevShop - dev.idetal.pl
+46.17.119.9     VM 101 DemoPP - demo.ipracownicy.pl
+46.17.119.10    VM 102 DemoShop - demo.idetal.pl
+46.17.119.11    VM 302 FTP-Humansoft download2.humansoft.pl upload2.humansoft
+46.17.119.12    VM 103 DemoB2B - demo.izamowienia.pl
+46.17.119.13    VM 304 Postfix - serwer pocztowy
+46.17.119.14    VM 204 Spawtech - spawtech.idetal.pl
+46.17.119.15    VM 202 Jednosc - jednosc.ipracownicy.pl
+46.17.119.16    VM 108 TestB2B - test.izamowienia.pl
+46.17.119.17    VM 109 DevB2B - dev.izamowienia.pl
+46.17.119.18    VM 113 PartnerShop - partner.idetal.pl
+46.17.119.19    VM 203 WasągB2B - wasag.izamowienia.pl
+46.17.119.20    VM 110 DemoHermesSQL(partner) demo.humansoft.pl
+46.17.119.21    VM 111 TestShop - test.idetal.pl
+46.17.119.22    VM 205 MotoAgroPS - moto-agro.idetal.pl
+46.17.119.23    VM 206 MotoAgroB2B - moto-agro.izamowienia.pl
+46.17.119.24    VM 207 Hauraton - hauraton.ipracownicy.pl
+46.17.119.25    VM 208 Meble Midas - midas.idetal.pl
+46.17.119.26    VM 209 LiderPS - lider.idetal.pl
+46.17.119.27    VM 119 DevPP -  dev.ipracownicy.pl
+46.17.119.28    VM 222 SpawtechNew
+46.17.119.29    VM 121 TestPP -  test.ipracownicy.pl
+46.17.119.30    VM 212 EnvoShop - sklep.pereko.pl
+46.17.119.31    VM 201 WindoorB2B - windoor.izamowienia.pl
+46.17.119.32    VM 211 WandaB2B - wanda.izamowienia.pl
+46.17.119.33    VM 219 LiderWP - lider.humansoft.pl
+46.17.119.34    VM 999 test - maszynka do testów moose'a
+46.17.119.35    Vm 222 LiderB2B - lider.izamowienia.pl
+46.17.119.36    VM 222 ElektroMonterShop - elektromonter.idetal.pl
+46.17.119.37    VM 221 ElHurt - elhurt-elmet.idetal.pl
+46.17.119.38    VM 311 DokHumansoft nowa - dokumentacja.humansoft.pl
+46.17.119.39    VM 112 MysqlCluster
+46.17.119.40    VM 222 Prescot - prescot.idetal.pl
+46.17.119.41    VM 104 Serwis presty - serwis.idetal.pl
+46.17.119.42    VM 220 PrescotB2B - prescot.izamowienia.pl
+46.17.119.43    
+46.17.119.44    VM 105 LiderTestAPI
+46.17.119.45    VM 115 HermesOnline na Windowsie
+46.17.119.46    VM 225 BialmedPP - bialmed.ipracownicy.pl
+46.17.119.47    VM 226 BialmedSystemPP - bialmed-system.ipracownicy.pl
+46.17.119.48
+46.17.119.49
+46.17.119.50
+46.17.119.51
+46.17.119.52
+46.17.119.53
+46.17.119.54
+46.17.119.55
+46.17.119.56
+46.17.119.57
+46.17.119.58  VM 950 dokumentacja-old.humansoft.pl - tymczasowo
+46.17.119.59  VM 313 jitsi.humansoft.pl
+46.17.119.60  VM 312 meet.humansoft.pl
+46.17.119.61  VM 307 DL-Humansoft - dl.humansoft.pl
+46.17.119.62  VM 300 ZgłoszeniaHumansoft - zgloszenia.humansoft.pl

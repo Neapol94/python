@@ -1,4 +1,7 @@
-import sys
+import sys, random
+file = open('plik.txt', 'r')
+dane = file.read()
+
 # def main():
 #     print("Witaj świecie!")
 # if __name__ == "__main__":
@@ -9,7 +12,6 @@ import sys
 # wynik = wynik.split("-")
 # print(wynik[0]+" "+wynik[1])
 
-import random
 #
 # aList = [20, 40, 80, 100, 120]
 # print ("choosing 3 random items from a list using random.sample() function")
@@ -66,6 +68,78 @@ import random
 # for liczba in generatorLiczb:
 #     print(liczba)
 
-rok = str(2016)
-if rok % 4 == 0 and (rok % 100 != 0 or rok % 400 == 0):
-    print(True)
+# rok = str(2016)
+# if rok % 4 == 0 and (rok % 100 != 0 or rok % 400 == 0):
+#     print(True)
+anagram = "maokai"
+#tekst = input("Podaj słowo, sprawdzę czy jest anagramem do %s \n" % anagram)
+#tekst = input("Podaj słowo, sprawdzę czy jest palindromem \n")
+
+def czyAnagram(tekst, anagram):
+    n = len(tekst)
+    if len(anagram) != n:
+        return False
+
+    slownik1 = dict()
+    slownik2 = dict()
+    for i in range(n):
+        if tekst[i] in slownik1:
+            slownik1[tekst[i]] += 1
+        else:
+            slownik1[tekst[i]] = 1
+        if tekst[i] in slownik2:
+            slownik2[tekst[i]] += 1
+        else:
+            slownik2[tekst[i]] = 1
+    return slownik1==slownik2
+
+
+def czyPalindrom(tekst):
+    n = len(tekst)
+    if(n != len(tekst)):
+        return False
+    bufor = ""
+    for i in range(n):
+        bufor += (tekst[-1*(i+1)])
+    return bufor==tekst
+
+def najwiekszaZListy(lista):
+    najw = [0, 0]
+    n = len(lista)
+    for i in range(n):
+        if(lista[i]>najw[0]):
+            najw[1] = najw[0]
+            najw[0] = lista[i]
+    return najw
+
+lista = [2, 3, 4, 5, 6, 7, 2, 2, 2]
+
+#print(najwiekszaZListy(lista))
+
+
+
+def sprawdzVM(list):
+    n = len(list)
+    listaVM = []
+    powtorki = []
+    for i in range(n):
+        if(i<n-10):
+            if(list[i]+list[i+1]=="VM"):
+                listaVM.append(list[i:i+6])
+        else:
+            break
+    for vm in range(len(listaVM)):
+        currentVM = listaVM[vm]
+        for i in range(len(listaVM)):
+            if(currentVM in powtorki):
+                break
+            elif (currentVM == listaVM[i] and vm != i):
+                powtorki.append(currentVM)
+    return powtorki
+
+
+
+
+print(sprawdzVM(dane))
+#print(czyPalindrom(tekst))
+#print(czyAnagram(tekst, anagram))
