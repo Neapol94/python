@@ -112,7 +112,7 @@ def najwiekszaZListy(lista):
             najw[0] = lista[i]
     return najw
 
-lista = [2, 3, 4, 4, 5, 6, 5, 5, 5, 5, 7, 2, 2, 2]
+lista = [2, 2, 3, 4, 4, 4, 5, 6, 5, 5, 5, 5, 7, 2, 2, 2]
 
 #print(najwiekszaZListy(lista))
 
@@ -141,7 +141,6 @@ def sprawdzVM(list):
 def moda(list):
     n = len(list)
     slownik = dict()
-    dwieNajw = dict()
     for i in range(n):
         if list[i] in slownik:
             slownik[list[i]] +=1
@@ -165,7 +164,10 @@ def moda(list):
     return najw
 
 
-print(moda(lista))
+
+
+
+#print(moda(lista))
 #print(sprawdzVM(dane))
 #print(czyPalindrom(tekst))
 #print(czyAnagram(tekst, anagram))
