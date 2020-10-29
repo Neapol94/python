@@ -39,6 +39,7 @@ def teamCreate(id):
     return teamObject
 
 
+
 def getAllTeamsId():
     cur.execute("select count(id) from teams")
     ids = []
@@ -46,15 +47,21 @@ def getAllTeamsId():
         ids.append(i)
     return ids
 
-def drawTeams(idList):
+def drawTeamsPairs(idList):
 
     pary = []
     i = 0
-    pomieszane = random.shuffle(idList)
+    random.shuffle(idList)
     while len(pary) < len(idList) // 2:
         pary.append(str(idList[i]) + " " + str(idList[i + 1]))
         i += 2
     return pary
+
+def separateTeamsString(string):
+    teams = string.split(" ")
+    homeTeamId = teams[0]
+    awayTeamId = teams[1]
+    return homeTeamId, awayTeamId
 
 def teamCompare(homeTeamId, awayTeamId):
     while(homeTeamId==awayTeamId):
@@ -215,30 +222,46 @@ def saveScores(teamHome, teamHomeScore, teamAwayScore, teamAway):
     except Error as e:
         print(e)
 
+def cupSimulation(pairs):
+    roundResults = []
+    i = 1
+    n = "\n"
+    for pair in pairs:
+        teamsPair = separateTeamsString(pair)
+        homeTeamObject = teamCreate(int(teamsPair[0]))
+        awayTeamObject = teamCreate(int(teamsPair[1]))
+        winnerProb = winnerProbability(homeTeamObject, awayTeamObject)
+        theResult = result(homeTeamObject, awayTeamObject, betterTeamScore(winnerProb), worseTeamScore(winnerProb))
+        roundResults.append(f"{i}: {theResult[0].name} {theResult[1]} - {theResult[2]} {theResult[3].name}")
+        i += 1
+
+    return roundResults
 
 
 
+# homeId = getTeamId()
+# awayId = getTeamId()
+#
+# team = teamCompare(homeId, awayId)
+# teamHomeObject = teamCreate(team[0])
+# teamAwayObject = teamCreate(team[1])
+#
+# probability = winnerProbability(teamHomeObject, teamAwayObject)
+# bts = betterTeamScore(probability)
+# wts = worseTeamScore(probability)
+#
+#
+# print(result(teamHomeObject, teamAwayObject, bts, wts)[0].name, result(teamHomeObject, teamAwayObject, bts, wts)[1],
+#       result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3].name)
+#
+#
+#
+# saveScores(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
+#            result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3])
 
-homeId = getTeamId()
-awayId = getTeamId()
 
-team = teamCompare(homeId, awayId)
-teamHomeObject = teamCreate(team[0])
-teamAwayObject = teamCreate(team[1])
-
-probability = winnerProbability(teamHomeObject, teamAwayObject)
-bts = betterTeamScore(probability)
-wts = worseTeamScore(probability)
-
-
-print(result(teamHomeObject, teamAwayObject, bts, wts)[0].name, result(teamHomeObject, teamAwayObject, bts, wts)[1],
-      result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3].name)
-
-
-
-saveScores(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
-           result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3])
-
+for i in cupSimulation(drawTeamsPairs(getAllTeamsId())):
+    print(i + "\n")
 
 
 con.commit()
