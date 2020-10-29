@@ -71,99 +71,109 @@ dane = file.read()
 # rok = str(2016)
 # if rok % 4 == 0 and (rok % 100 != 0 or rok % 400 == 0):
 #     print(True)
-anagram = "maokai"
-#tekst = input("Podaj słowo, sprawdzę czy jest anagramem do %s \n" % anagram)
-#tekst = input("Podaj słowo, sprawdzę czy jest palindromem \n")
+# anagram = "maokai"
+# #tekst = input("Podaj słowo, sprawdzę czy jest anagramem do %s \n" % anagram)
+# #tekst = input("Podaj słowo, sprawdzę czy jest palindromem \n")
+#
+# def czyAnagram(tekst, anagram):
+#     n = len(tekst)
+#     if len(anagram) != n:
+#         return False
+#
+#     slownik1 = dict()
+#     slownik2 = dict()
+#     for i in range(n):
+#         if tekst[i] in slownik1:
+#             slownik1[tekst[i]] += 1
+#         else:
+#             slownik1[tekst[i]] = 1
+#         if tekst[i] in slownik2:
+#             slownik2[tekst[i]] += 1
+#         else:
+#             slownik2[tekst[i]] = 1
+#     return slownik1==slownik2
+#
+#
+# def czyPalindrom(tekst):
+#     n = len(tekst)
+#     if(n != len(tekst)):
+#         return False
+#     bufor = ""
+#     for i in range(n):
+#         bufor += (tekst[-1*(i+1)])
+#     return bufor==tekst
+#
+# def najwiekszaZListy(lista):
+#     najw = [0, 0]
+#     n = len(lista)
+#     for i in range(n):
+#         if(lista[i]>najw[0]):
+#             najw[1] = najw[0]
+#             najw[0] = lista[i]
+#     return najw
+#
+# lista = [2, 2, 3, 4, 4, 4, 5, 6, 5, 5, 5, 5, 7, 2, 2, 2]
+#
+# #print(najwiekszaZListy(lista))
+#
+#
+#
+# def sprawdzVM(list):
+#     n = len(list)
+#     listaVM = []
+#     powtorki = []
+#     for i in range(n):
+#         if(i<n-10):
+#             if(list[i]+list[i+1]=="VM"):
+#                 listaVM.append(list[i:i+6])
+#         else:
+#             break
+#     for vm in range(len(listaVM)):
+#         currentVM = listaVM[vm]
+#         for i in range(len(listaVM)):
+#             if(currentVM in powtorki):
+#                 break
+#             elif (currentVM == listaVM[i] and vm != i):
+#                 powtorki.append(currentVM)
+#     return powtorki
+#
+#
+# def moda(list):
+#     n = len(list)
+#     slownik = dict()
+#     for i in range(n):
+#         if list[i] in slownik:
+#             slownik[list[i]] +=1
+#         else:
+#             slownik[list[i]] = 1
+#     bufor, bufor1 = 0, 0
+#     klucz, klucz1 = 0, 0
+#     for key in slownik:
+#         if(slownik[key]>bufor):
+#             klucz = key
+#             bufor = (slownik[key])
+#
+#         elif(slownik[key]==bufor):
+#             klucz1 = key
+#             bufor1 = slownik[key]
+#     if(bufor1>0):
+#         najw = {klucz:bufor, klucz1:bufor1}
+#     else: najw = {klucz: bufor}
+#
+#
+#     return najw
 
-def czyAnagram(tekst, anagram):
-    n = len(tekst)
-    if len(anagram) != n:
-        return False
+numery = []
+for i in range(1, 12):
+    numery.append(i)
 
-    slownik1 = dict()
-    slownik2 = dict()
-    for i in range(n):
-        if tekst[i] in slownik1:
-            slownik1[tekst[i]] += 1
-        else:
-            slownik1[tekst[i]] = 1
-        if tekst[i] in slownik2:
-            slownik2[tekst[i]] += 1
-        else:
-            slownik2[tekst[i]] = 1
-    return slownik1==slownik2
-
-
-def czyPalindrom(tekst):
-    n = len(tekst)
-    if(n != len(tekst)):
-        return False
-    bufor = ""
-    for i in range(n):
-        bufor += (tekst[-1*(i+1)])
-    return bufor==tekst
-
-def najwiekszaZListy(lista):
-    najw = [0, 0]
-    n = len(lista)
-    for i in range(n):
-        if(lista[i]>najw[0]):
-            najw[1] = najw[0]
-            najw[0] = lista[i]
-    return najw
-
-lista = [2, 2, 3, 4, 4, 4, 5, 6, 5, 5, 5, 5, 7, 2, 2, 2]
-
-#print(najwiekszaZListy(lista))
-
-
-
-def sprawdzVM(list):
-    n = len(list)
-    listaVM = []
-    powtorki = []
-    for i in range(n):
-        if(i<n-10):
-            if(list[i]+list[i+1]=="VM"):
-                listaVM.append(list[i:i+6])
-        else:
-            break
-    for vm in range(len(listaVM)):
-        currentVM = listaVM[vm]
-        for i in range(len(listaVM)):
-            if(currentVM in powtorki):
-                break
-            elif (currentVM == listaVM[i] and vm != i):
-                powtorki.append(currentVM)
-    return powtorki
-
-
-def moda(list):
-    n = len(list)
-    slownik = dict()
-    for i in range(n):
-        if list[i] in slownik:
-            slownik[list[i]] +=1
-        else:
-            slownik[list[i]] = 1
-    bufor, bufor1 = 0, 0
-    klucz, klucz1 = 0, 0
-    for key in slownik:
-        if(slownik[key]>bufor):
-            klucz = key
-            bufor = (slownik[key])
-
-        elif(slownik[key]==bufor):
-            klucz1 = key
-            bufor1 = slownik[key]
-    if(bufor1>0):
-        najw = {klucz:bufor, klucz1:bufor1}
-    else: najw = {klucz: bufor}
-
-
-    return najw
-
-
+pary = []
+i = 0
+pomieszane = random.shuffle(numery)
+while len(pary)<len(numery)//2:
+    pary.append(str(numery[i]) + " " + str(numery[i+1]))
+    i += 2
+print(pary)
 
 
 

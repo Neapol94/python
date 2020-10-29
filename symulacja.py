@@ -39,6 +39,23 @@ def teamCreate(id):
     return teamObject
 
 
+def getAllTeamsId():
+    cur.execute("select count(id) from teams")
+    ids = []
+    for i in range(1, (cur.fetchone()[-1] + 1)):
+        ids.append(i)
+    return ids
+
+def drawTeams(idList):
+
+    pary = []
+    i = 0
+    pomieszane = random.shuffle(idList)
+    while len(pary) < len(idList) // 2:
+        pary.append(str(idList[i]) + " " + str(idList[i + 1]))
+        i += 2
+    return pary
+
 def teamCompare(homeTeamId, awayTeamId):
     while(homeTeamId==awayTeamId):
         id = getTeamId()
@@ -221,6 +238,8 @@ print(result(teamHomeObject, teamAwayObject, bts, wts)[0].name, result(teamHomeO
 
 saveScores(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
            result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3])
+
+
 
 con.commit()
 con.close()
