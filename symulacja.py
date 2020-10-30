@@ -104,39 +104,46 @@ def dateGen():
 
 
 def winnerProbability(teamHome, teamAway):
-    winnerProb = None
+    betterTeam = worseTeam = winnerProb = None
     thp = teamHome.potential + 1
     tap = teamAway.potential - 1
     if (thp == tap):
         thp  += 1
+        betterTeam = teamHome
+        worseTeam = teamAway
 
     if (thp  > tap):
         winnerProb = thp  - tap + 50  # percentage chance for a win
+        betterTeam = teamHome
+        worseTeam = teamAway
     elif(thp  < tap):
         winnerProb = tap - thp + 50  # percentage chance for a win
-    return winnerProb
+        betterTeam = teamAway
+        worseTeam = teamHome
+    return winnerProb, betterTeam, worseTeam
+
 
 
 def betterTeamScore(winnerProb):
     betterTeamScoreProb = []
 
-    betterTeamScoreFive = winnerProb // 10 * 10
+    betterTeamScoreFive = winnerProb // 18 * 10
     for i in range(int(betterTeamScoreFive)):
         betterTeamScoreProb.append(5)
 
-    betterTeamScoreZero = (100 - winnerProb) // 5 * 10
+    betterTeamScoreZero = (100 - winnerProb) // 7 * 10
     for i in range(int(betterTeamScoreZero)):
         betterTeamScoreProb.append(0)
 
-    betterTeamScoreFour = winnerProb // 5 * 10
+    betterTeamScoreFour = winnerProb // 10 * 10
     for i in range(int(betterTeamScoreFour)):
         betterTeamScoreProb.append(4)
 
-    betterTeamScoreOne = (100 - winnerProb) // 4 * 10
+    betterTeamScoreOne = (100 - winnerProb) // 8 * 10
     for i in range(betterTeamScoreOne):
         betterTeamScoreProb.append(1)
 
-    betterTeamScoreThree = winnerProb // 3 * 10
+    betterTeamScoreThree = winnerProb // 5 * 10
     for i in range(int(betterTeamScoreThree)):
         betterTeamScoreProb.append(3)
 
@@ -150,27 +157,27 @@ def betterTeamScore(winnerProb):
 def worseTeamScore(winnerProb):
     worseTeamScoreProb = []
 
-    worseTeamScoreFive = (100 - winnerProb) // 10 * 10
+    worseTeamScoreFive = (100 - winnerProb) // 30 * 10
     for i in range(worseTeamScoreFive):
         worseTeamScoreProb.append(5)
 
-    worseTeamScoreFour = (100 - winnerProb) // 6 * 10
+    worseTeamScoreFour = (100 - winnerProb) // 20 * 10
     for i in range(worseTeamScoreFour):
         worseTeamScoreProb.append(4)
 
-    worseTeamScoreThree = (100 - winnerProb) // 4 * 10
+    worseTeamScoreThree = (100 - winnerProb) // 10 * 10
     for i in range(int(worseTeamScoreThree)):
         worseTeamScoreProb.append(3)
 
-    worseTeamScoreTwo = (100 - winnerProb) // 3 * 10
+    worseTeamScoreTwo = (100 - winnerProb) // 5 * 10
     for i in range(int(worseTeamScoreTwo)):
         worseTeamScoreProb.append(2)
 
-    worseTeamScoreOne = winnerProb // 5 * 10
+    worseTeamScoreOne = winnerProb // 3 * 10
     for i in range(worseTeamScoreOne):
         worseTeamScoreProb.append(1)
 
-    worseTeamScoreZero = winnerProb // 3 * 10
+    worseTeamScoreZero = winnerProb // 2 * 10
     for i in range(worseTeamScoreZero):
         worseTeamScoreProb.append(0)
 
@@ -185,6 +192,32 @@ def result(teamHome, teamAway, betterTeamScore, worseTeamScore):
         teamAwayScore = betterTeamScore
 
     return teamHome, teamHomeScore, teamAwayScore, teamAway
+
+
+def roundResults(pairs):
+    currentRound = []
+    nextRound = []
+    i = 1
+    n = "\n"
+    for pair in pairs:
+        teamsPair = separateTeamsString(pair)
+        homeTeamObject = teamCreate(int(teamsPair[0]))
+        awayTeamObject = teamCreate(int(teamsPair[1]))
+        winnerProb = winnerProbability(homeTeamObject, awayTeamObject)
+        theResult = result(homeTeamObject, awayTeamObject, betterTeamScore(winnerProb[0]), worseTeamScore(winnerProb[0]))
+        if (theResult[1] > theResult[2]):
+            nextRound.append(homeTeamObject.id)
+            currentRound.append(f"{i}: {theResult[0].name} {theResult[1]} - {theResult[2]} {theResult[3].name}")
+        elif (theResult[1] < theResult[2]):
+            nextRound.append(awayTeamObject.id)
+            currentRound.append(f"{i}: {theResult[0].name} {theResult[1]} - {theResult[2]} {theResult[3].name}")
+        elif(theResult[1] == theResult[2]):
+            nextRound.append(theResult[0].id)
+            currentRound.append(f"{i} {theResult[0].name} k: {theResult[1]} - {theResult[2]} {theResult[3].name}")
+
+        i += 1
+    return nextRound, currentRound
+
 
 
 def saveScores(teamHome, teamHomeScore, teamAwayScore, teamAway):
@@ -223,19 +256,7 @@ def saveScores(teamHome, teamHomeScore, teamAwayScore, teamAway):
         print(e)
 
 def cupSimulation(pairs):
-    roundResults = []
-    i = 1
-    n = "\n"
-    for pair in pairs:
-        teamsPair = separateTeamsString(pair)
-        homeTeamObject = teamCreate(int(teamsPair[0]))
-        awayTeamObject = teamCreate(int(teamsPair[1]))
-        winnerProb = winnerProbability(homeTeamObject, awayTeamObject)
-        theResult = result(homeTeamObject, awayTeamObject, betterTeamScore(winnerProb), worseTeamScore(winnerProb))
-        roundResults.append(f"{i}: {theResult[0].name} {theResult[1]} - {theResult[2]} {theResult[3].name}")
-        i += 1
-
-    return roundResults
+    return
 
 
 
@@ -259,10 +280,44 @@ def cupSimulation(pairs):
 # saveScores(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
 #            result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3])
 
+para = 0
 
-for i in cupSimulation(drawTeamsPairs(getAllTeamsId())):
-    print(i + "\n")
+lastSixteenResults = roundResults(drawTeamsPairs(getAllTeamsId()))
 
+# for i in lastSixteenResults[0]:
+#     print(i)
+print("Last 16: ")
+for i in lastSixteenResults[1]:
+    print(i)
+
+quarterfinalResults = roundResults(drawTeamsPairs(lastSixteenResults[0]))
+
+# for i in quarterfinalResults[0]:
+#     print(i)
+print("Quarterfinals: ")
+for i in quarterfinalResults[1]:
+    print(i)
+
+semifinalResults = roundResults(drawTeamsPairs(quarterfinalResults[0]))
+
+# for i in semifinalResults[0]:
+#     print(i)
+print("Semifinals: ")
+for i in semifinalResults[1]:
+    print(i)
+
+finalResults = roundResults(drawTeamsPairs(semifinalResults[0]))
+
+# for i in semifinalResults[0]:
+#     print(i)
+print("Final: ")
+for i in finalResults[1]:
+    print(i)
+
+# lastSixteenResult = roundResults(drawTeamsPairs(getAllTeamsId()))[0]
+# print("Quarterfinal")
+# for i in roundResults(drawTeamsPairs(lastSixteenResult))[1]:
+#     print(i)
 
 con.commit()
 con.close()
