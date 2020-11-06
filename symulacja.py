@@ -1,4 +1,5 @@
-import sqlite3, random
+import sqlite3
+import random
 from sqlite3 import Error
 
 
@@ -199,6 +200,8 @@ def roundResults(pairs):
     nextRound = []
     i = 1
     n = "\n"
+
+
     for pair in pairs:
         teamsPair = separateTeamsString(pair)
         homeTeamObject = teamCreate(int(teamsPair[0]))
@@ -219,6 +222,9 @@ def roundResults(pairs):
     return nextRound, currentRound
 
 
+def saveScoreQuery(teamHomePotential, teamHomeScore, teamHomeConcede, teamHomePoints, winner):
+    cur.execute("UPDATE teams set potential = ?, goals_scored = ?, goals_against = ?, points = ?"
+                "where id = ?", (teamHomePotential, teamHomeScore, teamHomeConcede, teamHomePoints, winner))
 
 def saveScores(teamHome, teamHomeScore, teamAwayScore, teamAway):
     try:
@@ -230,33 +236,33 @@ def saveScores(teamHome, teamHomeScore, teamAwayScore, teamAway):
         winner = 0
         if(teamHomeScore>teamAwayScore):
             winner = teamHome.id
-            cur.execute("UPDATE teams set potential = ?, goals_scored = ?, goals_against = ?, points = ?"
-                        "where id = ?",(teamHome.potential + 1, teamHome.goals_scored + teamHomeScore,
-                            teamHome.goals_against - teamAwayScore, teamHome.points + 3, winner))
-            cur.execute("UPDATE teams set potential = ?, goals_scored = ?, goals_against = ?, points = ?"
-                        "where id = ?", (teamAway.potential - 1, teamAway.goals_scored + teamAwayScore,
-                                         teamAway.goals_against - teamHomeScore, teamAway.points + 0, teamAway.id))
+            saveScoreQuery(teamHome.potential + 1, teamHome.goals_scored + teamHomeScore,
+                            teamHome.goals_against - teamAwayScore, teamHome.points + 3, winner)
+
+            saveScoreQuery(teamAway.potential - 1, teamAway.goals_scored + teamAwayScore,
+                                         teamAway.goals_against - teamHomeScore, teamAway.points + 0, teamAway.id)
         elif(teamHomeScore<teamAwayScore):
             winner = teamAway.id
-            cur.execute("UPDATE teams set potential = ?, goals_scored = ?, goals_against = ?, points = ?"
-                        "where id = ?", (teamAway.potential + 1, teamAway.goals_scored + teamAwayScore,
-                                         teamAway.goals_against - teamHomeScore, teamAway.points + 3, winner))
-            cur.execute("UPDATE teams set potential = ?, goals_scored = ?, goals_against = ?, points = ?"
-                        "where id = ?", (teamHome.potential - 1, teamHome.goals_scored + teamHomeScore,
-                            teamHome.goals_against - teamAwayScore, teamHome.points + 0, teamHome.id))
+            saveScoreQuery(teamAway.potential + 1, teamAway.goals_scored + teamAwayScore,
+                                         teamAway.goals_against - teamHomeScore, teamAway.points + 3, winner)
+
+            saveScoreQuery(teamHome.potential - 1, teamHome.goals_scored + teamHomeScore,
+                            teamHome.goals_against - teamAwayScore, teamHome.points + 0, teamHome.id)
         else:
-            winner = 0
-            cur.execute("UPDATE teams set potential = ?, goals_scored = ?, goals_against = ?, points = ?"
-                        "where id = ?", (teamAway.potential + 0, teamAway.goals_scored + teamAwayScore,
-                                         teamAway.goals_against - teamHomeScore, teamAway.points + 1, teamAway.id))
-            cur.execute("UPDATE teams set potential = ?, goals_scored = ?, goals_against = ?, points = ?"
-                        "where id = ?", (teamHome.potential + 0, teamHome.goals_scored + teamHomeScore,
-                                         teamHome.goals_against - teamAwayScore, teamHome.points + 1, teamHome.id))
+            saveScoreQuery(teamAway.potential + 0, teamAway.goals_scored + teamAwayScore,
+                                         teamAway.goals_against - teamHomeScore, teamAway.points + 1, teamAway.id)
+
+            saveScoreQuery(teamHome.potential + 0, teamHome.goals_scored + teamHomeScore,
+                                         teamHome.goals_against - teamAwayScore, teamHome.points + 1, teamHome.id)
     except Error as e:
         print(e)
 
 def cupSimulation(pairs):
-    return
+    lastSixteenResults = roundResults(pairs)
+    quarterfinalResults = roundResults(drawTeamsPairs(lastSixteenResults[0]))
+    semifinalResults = roundResults(drawTeamsPairs(quarterfinalResults[0]))
+    finalResults = roundResults(drawTeamsPairs(semifinalResults[0]))
+    return finalResults[1]
 
 
 
@@ -280,39 +286,42 @@ def cupSimulation(pairs):
 # saveScores(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
 #            result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3])
 
-para = 0
-
-lastSixteenResults = roundResults(drawTeamsPairs(getAllTeamsId()))
-
-# for i in lastSixteenResults[0]:
+# para = 0
+#
+# lastSixteenResults = roundResults(drawTeamsPairs(getAllTeamsId()))
+#
+# # for i in lastSixteenResults[0]:
+# #     print(i)
+# print("Last 16: ")
+# for i in lastSixteenResults[1]:
 #     print(i)
-print("Last 16: ")
-for i in lastSixteenResults[1]:
-    print(i)
-
-quarterfinalResults = roundResults(drawTeamsPairs(lastSixteenResults[0]))
-
-# for i in quarterfinalResults[0]:
+#
+# quarterfinalResults = roundResults(drawTeamsPairs(lastSixteenResults[0]))
+#
+# # for i in quarterfinalResults[0]:
+# #     print(i)
+# print("Quarterfinals: ")
+# for i in quarterfinalResults[1]:
 #     print(i)
-print("Quarterfinals: ")
-for i in quarterfinalResults[1]:
-    print(i)
-
-semifinalResults = roundResults(drawTeamsPairs(quarterfinalResults[0]))
-
-# for i in semifinalResults[0]:
+#
+# semifinalResults = roundResults(drawTeamsPairs(quarterfinalResults[0]))
+#
+# # for i in semifinalResults[0]:
+# #     print(i)
+# print("Semifinals: ")
+# for i in semifinalResults[1]:
 #     print(i)
-print("Semifinals: ")
-for i in semifinalResults[1]:
-    print(i)
-
-finalResults = roundResults(drawTeamsPairs(semifinalResults[0]))
-
-# for i in semifinalResults[0]:
+#
+# finalResults = roundResults(drawTeamsPairs(semifinalResults[0]))
+#
+# # for i in semifinalResults[0]:
+# #     print(i)
+# print("Final: ")
+# for i in finalResults[1]:
 #     print(i)
-print("Final: ")
-for i in finalResults[1]:
-    print(i)
+
+pairs = drawTeamsPairs(getAllTeamsId())
+print(cupSimulation(pairs))
 
 # lastSixteenResult = roundResults(drawTeamsPairs(getAllTeamsId()))[0]
 # print("Quarterfinal")
