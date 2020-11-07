@@ -163,17 +163,10 @@ dane = file.read()
 #
 #     return najw
 
-numery = []
-for i in range(1, 12):
-    numery.append(i)
+worseTeamScoreProb = [0, 1, 2, 3, 4, 5]
 
-pary = []
-i = 0
-pomieszane = random.shuffle(numery)
-while len(pary)<len(numery)//2:
-    pary.append(str(numery[i]) + " " + str(numery[i+1]))
-    i += 2
-print(pary)
+
+print(random.choices(worseTeamScoreProb, [50, 37, 9, 3, 0.7, 0.3], k=100))
 
 
 

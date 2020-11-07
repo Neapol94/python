@@ -126,63 +126,15 @@ def winnerProbability(teamHome, teamAway):
 
 
 def betterTeamScore(winnerProb):
-    betterTeamScoreProb = []
+    betterTeamScoreProb = [0, 1, 2, 3, 4, 5]
 
-    betterTeamScoreFive = winnerProb // 18 * 10
-    for i in range(int(betterTeamScoreFive)):
-        betterTeamScoreProb.append(5)
-
-    betterTeamScoreZero = (100 - winnerProb) // 7 * 10
-    for i in range(int(betterTeamScoreZero)):
-        betterTeamScoreProb.append(0)
-
-    betterTeamScoreFour = winnerProb // 10 * 10
-    for i in range(int(betterTeamScoreFour)):
-        betterTeamScoreProb.append(4)
-
-    betterTeamScoreOne = (100 - winnerProb) // 8 * 10
-    for i in range(betterTeamScoreOne):
-        betterTeamScoreProb.append(1)
-
-    betterTeamScoreThree = winnerProb // 5 * 10
-    for i in range(int(betterTeamScoreThree)):
-        betterTeamScoreProb.append(3)
-
-    betterTeamScoreTwo = (100 - winnerProb) // 3 * 10
-    for i in range(betterTeamScoreTwo):
-        betterTeamScoreProb.append(2)
-
-    return random.choice(betterTeamScoreProb)
+    return random.choices(betterTeamScoreProb, [2, 7, 39, 32, 14, 6], k=100).pop()
 
 
 def worseTeamScore(winnerProb):
-    worseTeamScoreProb = []
+    worseTeamScoreProb = [0, 1, 2, 3, 4, 5]
 
-    worseTeamScoreFive = (100 - winnerProb) // 30 * 10
-    for i in range(worseTeamScoreFive):
-        worseTeamScoreProb.append(5)
-
-    worseTeamScoreFour = (100 - winnerProb) // 20 * 10
-    for i in range(worseTeamScoreFour):
-        worseTeamScoreProb.append(4)
-
-    worseTeamScoreThree = (100 - winnerProb) // 10 * 10
-    for i in range(int(worseTeamScoreThree)):
-        worseTeamScoreProb.append(3)
-
-    worseTeamScoreTwo = (100 - winnerProb) // 5 * 10
-    for i in range(int(worseTeamScoreTwo)):
-        worseTeamScoreProb.append(2)
-
-    worseTeamScoreOne = winnerProb // 3 * 10
-    for i in range(worseTeamScoreOne):
-        worseTeamScoreProb.append(1)
-
-    worseTeamScoreZero = winnerProb // 2 * 10
-    for i in range(worseTeamScoreZero):
-        worseTeamScoreProb.append(0)
-
-    return random.choice(worseTeamScoreProb)
+    return random.choices(worseTeamScoreProb, [50, 37, 9, 3, 0.7, 0.3], k=100).pop()
 
 def result(teamHome, teamAway, betterTeamScore, worseTeamScore):
     if(teamHome.potential>teamAway.potential):
