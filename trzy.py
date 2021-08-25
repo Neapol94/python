@@ -1,6 +1,13 @@
-import sys, random
-file = open('plik.txt', 'r')
+import sys
+import random
+from enum import Enum
+
+file = open('test\\plik1.txt', 'r')
 dane = file.read()
+# with open('mrowki\\pliktest.txt', 'w', encoding='utf-8') as file1:
+#     file1.write("MRÓWKI")
+f = open("mrowki\\cFile.txt", "w")
+f.write(" Created file")
 
 # def main():
 #     print("Witaj świecie!")
@@ -118,24 +125,24 @@ dane = file.read()
 #
 #
 #
-# def sprawdzVM(list):
-#     n = len(list)
-#     listaVM = []
-#     powtorki = []
-#     for i in range(n):
-#         if(i<n-10):
-#             if(list[i]+list[i+1]=="VM"):
-#                 listaVM.append(list[i:i+6])
-#         else:
-#             break
-#     for vm in range(len(listaVM)):
-#         currentVM = listaVM[vm]
-#         for i in range(len(listaVM)):
-#             if(currentVM in powtorki):
-#                 break
-#             elif (currentVM == listaVM[i] and vm != i):
-#                 powtorki.append(currentVM)
-#     return powtorki
+def sprawdzVM(list):
+    n = len(list)
+    listaVM = []
+    powtorki = []
+    for i in range(n):
+        if(i<n-10):
+            if(list[i]+list[i+1]=="VM"):
+                listaVM.append(list[i:i+6])
+        else:
+            break
+    for vm in range(len(listaVM)):
+        currentVM = listaVM[vm]
+        for i in range(len(listaVM)):
+            if(currentVM in powtorki):
+                break
+            elif (currentVM == listaVM[i] and vm != i):
+                powtorki.append(currentVM)
+    return powtorki
 #
 #
 # def moda(list):
@@ -163,12 +170,26 @@ dane = file.read()
 #
 #     return najw
 
-worseTeamScoreProb = [0, 1, 2, 3, 4, 5]
+# worseTeamScoreProb = [0, 1, 2, 3, 4, 5]
+#
+#
+# random.choices(worseTeamScoreProb, [50, 37, 9, 3, 0.7, 0.3], k=100)
+#
+# Event = Enum("Event", ["Chest", "Empty", "Enemy"])
+# eventDictionary = {
+#             Event.Chest: 0.4,
+#             Event.Empty: 0.3,
+#             Event.Enemy: 0.3
+# }
+# eventList = list(eventDictionary.keys())
+# eventProbability = list(eventDictionary.values())
+#
+# print(eventList)
+# print(eventProbability)
 
+#print("Losuję: ", random.choices(eventList, eventProbability))
 
-print(random.choices(worseTeamScoreProb, [50, 37, 9, 3, 0.7, 0.3], k=100))
-
-
+print(sprawdzVM(dane))
 
 #print(moda(lista))
 #print(sprawdzVM(dane))

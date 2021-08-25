@@ -1,5 +1,5 @@
-import sqlite3
-import random
+import itertools, sqlite3, random, datetime
+
 from sqlite3 import Error
 
 
@@ -30,6 +30,9 @@ def getTeamId():
     return int(teamId)
 
 
+#Funkcja pobiera id @int
+#
+#Zwraca obiekt @obj
 def teamCreate(id):
     cur.execute("SELECT * FROM teams WHERE id = ?", (id,))
     team = cur.fetchall()
@@ -40,67 +43,33 @@ def teamCreate(id):
     return teamObject
 
 
-
-def getAllTeamsId():
+#Funkcja zwraca tablicę @Array obiektów wszystkich zespołów
+def getAllTeams():
     cur.execute("select count(id) from teams")
-    ids = []
+    teams = []
     for i in range(1, (cur.fetchone()[-1] + 1)):
-        ids.append(i)
-    return ids
+        teams.append(teamCreate(i))
+    return teams
 
-def drawTeamsPairs(idList):
-
-    pary = []
-    i = 0
-    random.shuffle(idList)
-    while len(pary) < len(idList) // 2:
-        pary.append(str(idList[i]) + " " + str(idList[i + 1]))
-        i += 2
-    return pary
-
-def separateTeamsString(string):
-    teams = string.split(" ")
-    homeTeamId = teams[0]
-    awayTeamId = teams[1]
-    return homeTeamId, awayTeamId
-
-def teamCompare(homeTeamId, awayTeamId):
-    while(homeTeamId==awayTeamId):
-        id = getTeamId()
-        awayTeamId = id
-    return homeTeamId, awayTeamId
+#Przyjmuje tablicę i zwraca wszystkie kombinacje par @Array
+def drawTeamsPairs(teams):
+    return list(itertools.combinations(teams, 2))
 
 
+
+
+#Losuje datę z przedziału
 def dateGen():
-    def czyPrzestepny(rok):
-        if rok % 4 == 0 and (rok % 100 != 0 or rok % 400 == 0):
-            return True
-        else:
-            return False
+    start_date = datetime.date(2010, 1, 1)
+    end_date = datetime.date.today()
 
+    time_between_dates = end_date - start_date
+    days_between_dates = time_between_dates.days
+    random_number_of_days = random.randrange(days_between_dates)
+    random_date = start_date + datetime.timedelta(days=random_number_of_days)
+    random_date = f"{random_date.day}-{random_date.month}-{random_date.year}"
 
-    lata = ('2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020')
-    rok = str(random.choice(lata))
-
-    miesiace = []
-    for i in range(1,13):
-        if(i<10): miesiace.append("0"+ str(i))
-        else: miesiace.append(str(i))
-    miesiac = random.choice(miesiace)
-
-    dzien = ""
-    if(miesiac=="02"):
-        if(czyPrzestepny(rok)):
-            dzien = random.choice(range(1,30)) #luty 29dni
-        else:
-            dzien = random.choice(range(1, 29)) #luty 28dni
-    if(miesiac in ['01', '03', '05', '07', '08', '10', '12']):
-        dzien = random.choice(range(1, 32)) #31dniowe
-    else: dzien = random.choice(range(1, 31)) #30dniowe
-
-    if (dzien < 10): dzien = "0" + str(dzien)
-
-    return rok + "-" + miesiac + "-" + str(dzien)
+    return random_date
 
 
 
@@ -125,18 +94,9 @@ def winnerProbability(teamHome, teamAway):
 
 
 
-def betterTeamScore(winnerProb):
-    betterTeamScoreProb = [0, 1, 2, 3, 4, 5]
-
-    return random.choices(betterTeamScoreProb, [2, 7, 39, 32, 14, 6], k=100).pop()
-
-
-def worseTeamScore(winnerProb):
-    worseTeamScoreProb = [0, 1, 2, 3, 4, 5]
-
-    return random.choices(worseTeamScoreProb, [50, 37, 9, 3, 0.7, 0.3], k=100).pop()
-
-def result(teamHome, teamAway, betterTeamScore, worseTeamScore):
+def result(teamHome, teamAway):
+    random.choices([0, 1, 2, 3, 4, 5], [2, 7, 39, 32, 14, 6], k=100).pop()
+    random.choices([0, 1, 2, 3, 4, 5], [50, 37, 9, 3, 0.7, 0.3], k=100).pop()
     if(teamHome.potential>teamAway.potential):
         teamHomeScore = betterTeamScore
         teamAwayScore = worseTeamScore
@@ -151,15 +111,12 @@ def roundResults(pairs):
     currentRound = []
     nextRound = []
     i = 1
-    n = "\n"
 
 
     for pair in pairs:
-        teamsPair = separateTeamsString(pair)
-        homeTeamObject = teamCreate(int(teamsPair[0]))
-        awayTeamObject = teamCreate(int(teamsPair[1]))
-        winnerProb = winnerProbability(homeTeamObject, awayTeamObject)
-        theResult = result(homeTeamObject, awayTeamObject, betterTeamScore(winnerProb[0]), worseTeamScore(winnerProb[0]))
+        homeTeamObject = pair[0]
+        awayTeamObject = pair[1]
+        theResult = result(homeTeamObject, awayTeamObject)
         if (theResult[1] > theResult[2]):
             nextRound.append(homeTeamObject.id)
             currentRound.append(f"{i}: {theResult[0].name} {theResult[1]} - {theResult[2]} {theResult[3].name}")
@@ -217,68 +174,26 @@ def cupSimulation(pairs):
     return finalResults[1]
 
 
+def simulate_single_random_match():
+    teams = getAllTeams()
+    random.shuffle(teams)
+    team1 = teams[0]
+    team2 = teams[-1]
 
-# homeId = getTeamId()
-# awayId = getTeamId()
-#
-# team = teamCompare(homeId, awayId)
-# teamHomeObject = teamCreate(team[0])
-# teamAwayObject = teamCreate(team[1])
-#
-# probability = winnerProbability(teamHomeObject, teamAwayObject)
-# bts = betterTeamScore(probability)
-# wts = worseTeamScore(probability)
-#
-#
-# print(result(teamHomeObject, teamAwayObject, bts, wts)[0].name, result(teamHomeObject, teamAwayObject, bts, wts)[1],
-#       result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3].name)
-#
-#
-#
-# saveScores(result(teamHomeObject, teamAwayObject, bts, wts)[0], result(teamHomeObject, teamAwayObject, bts, wts)[1],
-#            result(teamHomeObject, teamAwayObject, bts, wts)[2], result(teamHomeObject, teamAwayObject, bts, wts)[3])
+    theResult = result(team1, team2, betterTeamScore(), worseTeamScore())
+    if (theResult[1] > theResult[2]):
+        return print(f"wynik: {team1.name} {theResult[1]} - {theResult[2]} {team2.name}. Dnia {dateGen()}")
+    elif (theResult[1] < theResult[2]):
+        return print(f"wynik: {team1.name} {theResult[1]} - {theResult[2]} {team2.name}. Dnia {dateGen()}")
+    elif(theResult[1] == theResult[2]):
+        return print(f"wynik: {team1.name} {theResult[1]} - {theResult[2]} {team2.name}. Dnia {dateGen()}")
 
-# para = 0
-#
-# lastSixteenResults = roundResults(drawTeamsPairs(getAllTeamsId()))
-#
-# # for i in lastSixteenResults[0]:
-# #     print(i)
-# print("Last 16: ")
-# for i in lastSixteenResults[1]:
-#     print(i)
-#
-# quarterfinalResults = roundResults(drawTeamsPairs(lastSixteenResults[0]))
-#
-# # for i in quarterfinalResults[0]:
-# #     print(i)
-# print("Quarterfinals: ")
-# for i in quarterfinalResults[1]:
-#     print(i)
-#
-# semifinalResults = roundResults(drawTeamsPairs(quarterfinalResults[0]))
-#
-# # for i in semifinalResults[0]:
-# #     print(i)
-# print("Semifinals: ")
-# for i in semifinalResults[1]:
-#     print(i)
-#
-# finalResults = roundResults(drawTeamsPairs(semifinalResults[0]))
-#
-# # for i in semifinalResults[0]:
-# #     print(i)
-# print("Final: ")
-# for i in finalResults[1]:
-#     print(i)
+    return "Mecz się nie odbył."
 
-pairs = drawTeamsPairs(getAllTeamsId())
-print(cupSimulation(pairs))
 
-# lastSixteenResult = roundResults(drawTeamsPairs(getAllTeamsId()))[0]
-# print("Quarterfinal")
-# for i in roundResults(drawTeamsPairs(lastSixteenResult))[1]:
-#     print(i)
+# pairs = drawTeamsPairs(getAllTeamsId())
+# print(cupSimulation(pairs))
+simulate_single_random_match()
 
 con.commit()
 con.close()
