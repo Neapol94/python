@@ -19,13 +19,16 @@ i=0
     #team = cell.find('a', class_="standing-table__cell--name-link",)
     #if(team != None):table.append(str(team.contents))
 
+def get_team_name_from_a(element):
+    return str(element.contents)
+
 tbody = bs.find("tbody")
 trs = tbody.find_all("tr", class_="standing-table__row")
 tds = trs[0].find_all("td")
 tabeleczka = []
 for element in tds:
     tabeleczka.append(element.contents)
-print(tabeleczka)
+print(get_team_name_from_a(tabeleczka[1]))
 
 
 
